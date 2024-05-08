@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<style>
+	img {
+	  display: block;
+	  margin-left: auto;
+	  margin-right: auto;
+	}
+	</style>
+	<title>Tienda virtual de Donas - DoniBites</title>
+</head>
+<body>
+	<img style="width:10%;" th:src="@{images/dona.png}"/>
+	<h1 style="text-align:center;">Bienvenido a su tienda virtual de Donas de DoniBites</h1>
+	<h3>Endpoints disponibles para leer datos</h3>
+	<ul style="list-style-type:disc;">
+		
+		<li><a th:href="@{/users}">Lista de usuarios</a></li>
+	    <li><a th:href="@{/roles}">Roles de usuarios</a></li>
+	    <li><a th:href="@{/categories}">Lista de categorías</a></li>
+	    <li><a th:href="@{/providers}">Lista de proveedores</a></li>
+	    <li><a th:href="@{/products}">Lista de productos</a></li>
+		<li><a th:href="@{/orders}">Lista de pedidos</a></li>
+		<li><a th:href="@{/invoices}">Lista de facturas</a></li>
+	</ul>
+		
+	<h3>Documentación Endpoints</h3>
+	<h3>Usuarios</h3>
+	<pre>
+	<code>
+		GET (Listar todos los usuarios)
+		curl "http://localhost:8080/minidonas/users"
+		---------------------------------------------------------------------------------------------------------------------------------
+		GET (Buscar un usuario por id, regresa un usuario)
+		curl "http://localhost:8080/minidonas/users/find/{id}"
+		---------------------------------------------------------------------------------------------------------------------------------
+		POST (Crear nuevo usuario, regresa un usuario)
+		curl -d @ejemplousuario.json "http://localhost:8080/minidonas/users/newUser"  -H "Content-Type:application/json" 
+		---------------------------------------------------------------------------------------------------------------------------------
+		PUT (Actualizar un usuario por id, regresa un usuario)
+		curl -X PUT -d @ejemplousuario.json "http://localhost:8080/minidonas/users/update/{id}"  -H "Content-Type:application/json"
+		---------------------------------------------------------------------------------------------------------------------------------
+		Desativar usuario (Donde id es el identificador del usuario a desactivar, regresa true)
+		curl "http://localhost:8080/minidonas/users/delete/{id}"
+		---------------------------------------------------------------------------------------------------------------------------------
+		
+		Ejemplo de un payload para usuario (ejemplousuario.json)
+		
+		{
+			"username": "usuario11",
+			"password": "contrausuario11",
+			"email": "usuario11@me.com",
+			"rol": 	{
+						"id":1
+					},
+			"completeName": "Juan Medica",
+			"address": "Villa Libertad Casa 88",
+			"phone": "+50586448855",
+			"status": "activo"
+		}
+		---------------------------------------------------------------------------------------------------------------------------------
+	</code>
+	</pre>
+	<h3>Roles</h3>
+	<pre>
+	<code>
+		GET (Listar todos los roles)
+		curl "http://localhost:8080/minidonas/roles"
+		---------------------------------------------------------------------------------------------------------------------------------
+		GET (Buscar un rol por id, regresa un rol)
+		curl "http://localhost:8080/minidonas/roles/find/{id}"
+		---------------------------------------------------------------------------------------------------------------------------------
+		POST (Crear nuevo rol, regresa un rol)
+		curl -d @ejemplorol.json "http://localhost:8080/minidonas/roles/newRole"  -H "Content-Type:application/json" 
+		---------------------------------------------------------------------------------------------------------------------------------
+		PUT (Actualizar un rol, regresa un rol)
+		curl -X PUT -d @ejemplorol.json "http://localhost:8080/minidonas/roles/update/{id}"  -H "Content-Type:application/json"
+		---------------------------------------------------------------------------------------------------------------------------------
+		
+		Ejemplo de un payload para rol (ejemplorol.json)
+		
+		{
+			"name":"Tiempo Parcial",
+			"description": "Empleado a medio tiempo"
+		}
+		---------------------------------------------------------------------------------------------------------------------------------
+	</code>
+	</pre>
+	
+	<h3>Categorías</h3>
+	<pre>
+	<code>
+		GET (Listar todas las categorias)
+		curl "http://localhost:8080/minidonas/categories"
+		---------------------------------------------------------------------------------------------------------------------------------
+		GET (Buscar una categoria por id, regresa una categoria)
+		curl "http://localhost:8080/minidonas/categories/find/{id}"
+		---------------------------------------------------------------------------------------------------------------------------------
+		POST (Crear nueva categoría, regresa una categoría)
+		curl -d @ejemplocategoria.json "http://localhost:8080/minidonas/categories/newCategory"  -H "Content-Type:application/json" 
+		---------------------------------------------------------------------------------------------------------------------------------
+		PUT (Actualizar una categoría, regresa una categoría)
+		curl -X PUT -d @ejemplocategoria.json "http://localhost:8080/minidonas/categories/update/{id}"  -H "Content-Type:application/json"
+		---------------------------------------------------------------------------------------------------------------------------------
+		
+		Ejemplo de un payload para categoría (ejemplocategoria.json)
+		
+		{
+			"name":"Rellenas de mermelada"
+		}
+		---------------------------------------------------------------------------------------------------------------------------------
+	</code>
+	</pre>
+	
+	<h3>Proveedores</h3>
+	<pre>
+	<code>
+		GET (Listar todos los proveedores)
+		curl "http://localhost:8080/minidonas/providers"
+		---------------------------------------------------------------------------------------------------------------------------------
+		GET (Buscar un proveedor por id, regresa un proveedor)
+		curl "http://localhost:8080/minidonas/providers/find/{id}"
+		---------------------------------------------------------------------------------------------------------------------------------
+		POST (Crear nuevo proveedor, regresa un proveedor)
+		curl -d @ejemploproveedor.json "http://localhost:8080/minidonas/providers/newProvider"  -H "Content-Type:application/json" 
+		---------------------------------------------------------------------------------------------------------------------------------
+		PUT (Actualizar un proveedor, regresa un proveedor)
+		curl -X PUT -d @ejemploproveedor.json "http://localhost:8080/minidonas/providers/update/{id}"  -H "Content-Type:application/json"
+		---------------------------------------------------------------------------------------------------------------------------------
+		Desativar proveedor (Donde id es el identificador del proveedor a desactivar, regresa true)
+		curl "http://localhost:8080/minidonas/providers/delete/{id}"
+		---------------------------------------------------------------------------------------------------------------------------------
+		
+		Ejemplo de un payload para proveedor (ejemploproveedor.json)
+		
+		{
+			"name": "Nestle de Nicaragua",
+			"email": "nestle@me.com",
+			"address": "Barrio Venezuela Casa 45",
+			"phone": "+50584587855",
+			"status": "activo"
+		}
+		---------------------------------------------------------------------------------------------------------------------------------
+	</code>
+	</pre>
+	
+	<h3>Productos</h3>
+	<pre>
+	<code>
+		GET (Listar todos los productos)
+		curl "http://localhost:8080/minidonas/products"
+		---------------------------------------------------------------------------------------------------------------------------------
+		GET (Buscar un producto por id, regresa un producto)
+		curl "http://localhost:8080/minidonas/products/find/{id}"
+		---------------------------------------------------------------------------------------------------------------------------------
+		POST (Crear nuevo producto, regresa un producto)
+		curl -d @ejemploproducto.json "http://localhost:8080/minidonas/products/newProduct"  -H "Content-Type:application/json" 
+		---------------------------------------------------------------------------------------------------------------------------------
+		PUT (Actualizar un producto, regresa un producto)
+		curl -X PUT -d @ejemploproducto.json "http://localhost:8080/minidonas/products/update/{id}"  -H "Content-Type:application/json"
+		---------------------------------------------------------------------------------------------------------------------------------
+		Desativar producto (Donde id es el identificador del producto a desactivar, regresa true)
+		curl "http://localhost:8080/minidonas/products/delete/{id}"
+		---------------------------------------------------------------------------------------------------------------------------------
+		
+		Ejemplo de un payload para producto (ejemploproducto.json)
+		
+		{
+			"name": "Mindona mermelada",
+			"description": "Riquisima dona rellena de mermelada",
+			"qty": 25,
+			"category": {
+				"id": 5
+				},
+			"unitPrice": 75,
+			"status": "activo"
+		}
+		---------------------------------------------------------------------------------------------------------------------------------
+	</code>
+	</pre>
+	
+	
+	<h3>Pedidos</h3>
+	<pre>
+	<code>
+		GET (Listar todos los pedidos)
+		curl "http://localhost:8080/minidonas/orders"
+		---------------------------------------------------------------------------------------------------------------------------------
+		GET (Buscar un pedido por id, regresa un pedido)
+		curl "http://localhost:8080/minidonas/orders/find/{id}"
+		---------------------------------------------------------------------------------------------------------------------------------
+		POST (Crear nuevo pedido, regresa un pedido)
+		curl -d @ejemplopedido.json "http://localhost:8080/minidonas/orders/newOrder"  -H "Content-Type:application/json" 
+		---------------------------------------------------------------------------------------------------------------------------------
+		PUT (Actualizar un pedido, regresa un pedido)
+		curl -X PUT -d @ejemplopedido.json "http://localhost:8080/minidonas/orders/update/{id}"  -H "Content-Type:application/json"
+		---------------------------------------------------------------------------------------------------------------------------------
+		Desativar pedido (Donde id es el identificador del pedido a desactivar, regresa true)
+		curl "http://localhost:8080/minidonas/orders/delete/{id}"
+		---------------------------------------------------------------------------------------------------------------------------------
+		
+		Ejemplo de un payload para pedido (ejemplopedido.json)
+		
+		{
+		    "id": 12,
+		    "recordUser": 1,
+		    "updateUser": 1,
+		    "orderDate": "2024-04-23T03:42:30.000+00:00",
+		    "updateDate": "2024-04-28T03:42:31.000+00:00",
+		    "expectedDeliverDate": "2024-04-30T06:00:00.000+00:00",
+		    "deliverDate": null,
+		    "description": "Otra descripcion",
+		    "status": "en_proceso",
+		    "details": [
+		        {
+		            "id": 13,
+		            "product": {
+		                "id": 1,
+		                "name": "Mindona chocolate",
+		                "description": "Riquisima dona rellena de chocolate",
+		                "qty": 5,
+		                "category": {
+		                    "id": 3,
+		                    "name": "Rellenas de chocolate"
+		                },
+		                "unitPrice": 25.5,
+		                "status": "activo"
+		            },
+		            "qty": 400,
+		            "price": 8000.5
+		        }
+		    ]
+		}
+		
+		---------------------------------------------------------------------------------------------------------------------------------
+		Listar todos detalles de los pedidos
+		curl "http://localhost:8080/minidonas/orderDetails"
+		---------------------------------------------------------------------------------------------------------------------------------
+				
+		---------------------------------------------------------------------------------------------------------------------------------
+		Eliminar detalle del pedido (Donde id es el identificador del detalle a borrar, regresa true)
+		curl -X DELETE "http://localhost:8080/minidonas/orderDetails/delete/{id}"
+		---------------------------------------------------------------------------------------------------------------------------------
+		
+		
+		---------------------------------------------------------------------------------------------------------------------------------
+	</code>
+	</pre>
+	
+	
+	<h3>Facturas</h3>
+	<pre>
+	<code>
+		GET (Listar todas las facturas)
+		curl "http://localhost:8080/minidonas/invoices"
+		---------------------------------------------------------------------------------------------------------------------------------
+		GET (Buscar una factura por id, regresa una factura)
+		curl "http://localhost:8080/minidonas/invoices/find/{id}"
+		---------------------------------------------------------------------------------------------------------------------------------
+		POST (Crear nueva factura, regresa una factura)
+		curl -d @ejemplofactura.json "http://localhost:8080/minidonas/invoices/newInvoice"  -H "Content-Type:application/json" 
+		---------------------------------------------------------------------------------------------------------------------------------
+		PUT (Actualizar una factura, regresa una factura)
+		curl -X PUT -d @ejemplofactura.json "http://localhost:8080/minidonas/invoices/update/{id}"  -H "Content-Type:application/json"
+		---------------------------------------------------------------------------------------------------------------------------------
+		Eliminar factura (Donde id es el identificador del factura a eliminar, regresa true)
+		curl "http://localhost:8080/minidonas/invoices/delete/{id}"
+		---------------------------------------------------------------------------------------------------------------------------------
+		
+		Ejemplo de un payload para factura (ejemplofactura.json)
+		
+		{
+			"invoiceDate": "2024-04-23T03:50:23.000+00:00",
+			"order": {
+				"id": 3
+			},
+			"ruc": "323442",
+			"description": "asfafaf",
+			"paidAmount": "250.25",
+			"status": "activa"
+		}
+		---------------------------------------------------------------------------------------------------------------------------------
+	</code>
+	</pre>
+		
+		
+</body>
+</html>
+

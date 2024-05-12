@@ -17,7 +17,7 @@ import jakarta.persistence.ManyToOne;
  *  
  */
 @Entity(name = "tb_ingreso_producto_detalle")
-@JsonIgnoreProperties({"order"})
+@JsonIgnoreProperties({"entry"})
 public class EntryDetail {
 	@Id
     @Column(name = "id_ingreso_detalle")

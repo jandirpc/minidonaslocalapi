@@ -13,155 +13,97 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.donibites.exceptions.ObjectNotFoundException;
-import com.donibites.models.Order;
-import com.donibites.models.OrderDetail;
+import com.donibites.models.Entry;
+import com.donibites.models.EntryDetail;
 import com.donibites.models.Product;
-import com.donibites.repositories.OrderDetailRepository;
-import com.donibites.repositories.OrderRepository;
+import com.donibites.repositories.EntryDetailRepository;
+import com.donibites.repositories.EntryRepository;
 import com.donibites.repositories.ProductRepository;
 
 /**
- * Orders transactions controller
+ * Entries transactions controller
  */
 @RestController
 public class EntryController {
 	
 	@Autowired
-    private OrderRepository orderRepository;
+    private EntryRepository entryRepository;
 	
 	@Autowired
-    private OrderDetailRepository orderDetailRepository;
+    private EntryDetailRepository entryDetailRepository;
 	
 	@Autowired
     private ProductRepository productRepository;
 	
 	/**
-	 * Return list of orders
+	 * Return list of entries
 	 */
-    @GetMapping("/orders")
-    List<Order> findAll() {
-        return orderRepository.findAll();
+    @GetMapping("/entries")
+    List<Entry> findAll() {
+        return entryRepository.findAll();
     }
 	
 
     /**
-     * Creates a new Order 
-     * @RequestBody JSON representation of a Order
-     * @return Order
+     * Creates a new Entry 
+     * @RequestBody JSON representation of a Entry
+     * @return Entry
      */
     @ResponseStatus(HttpStatus.CREATED)
-    @PostMapping("/orders/newOrder")
-    Order newOrder(@RequestBody Order newOrder) {
-    	orderRepository.save(newOrder);
-    	for(OrderDetail detail:newOrder.getDetails()) {
-    		detail.setOrder(newOrder);
-    		orderDetailRepository.save(detail);
+    @PostMapping("/entries/newEntry")
+    Entry newEntry(@RequestBody Entry newEntry) {
+    	entryRepository.save(newEntry);
+    	for(EntryDetail detail:newEntry.getDetails()) {
+    		detail.setEntry(newEntry);
+    		entryDetailRepository.save(detail);
     		Product producto = productRepository.findById(detail.getProduct().getId())
     				.orElseThrow(() -> new ObjectNotFoundException(detail.getProduct().getId()));
     		producto.setQty(producto.getQty()-detail.getQty());
     		productRepository.save(producto);
     	}
-        return newOrder;
+        return newEntry;
     }
     
     /**
-     * Search an Order 
-     * @param id id of the order
-     * @return Order
+     * Search an Entry 
+     * @param id id of the entry
+     * @return Entry
      */
-    @GetMapping("/orders/find/{id}")
-    Order findOrder(@PathVariable Long id) {
-        return orderRepository.findById(id)
+    @GetMapping("/entries/find/{id}")
+    Entry findEntry(@PathVariable Long id) {
+        return entryRepository.findById(id)
                 .orElseThrow(() -> new ObjectNotFoundException(id));
     }
     
     /**
-     * Update an Order and the details
-     * @param id id of the order
-     * @return Order
+     * Update an Entry and the details
+     * @param id id of the entry
+     * @return Entry
      */
-    @PutMapping("/orders/update/{id}")
-    Order updateOrder(@RequestBody Order order, @PathVariable Long id) {
+    @PutMapping("/entries/update/{id}")
+    Entry updateEntry(@RequestBody Entry entry, @PathVariable Long id) {
     	
-    	Order orderToUpdate = orderRepository.findById(id)
+    	Entry entryToUpdate = entryRepository.findById(id)
                 .orElseThrow(() -> new ObjectNotFoundException(id));
     	
-    	orderToUpdate.setUpdateUser(order.getUpdateUser());
-    	orderToUpdate.setOrderDate(order.getOrderDate());
-    	orderToUpdate.setUpdateDate(order.getUpdateDate());
-    	orderToUpdate.setExpectedDeliverDate(order.getExpectedDeliverDate());
-    	orderToUpdate.setDeliverDate(order.getDeliverDate());
-    	orderToUpdate.setDescription(order.getDescription());
-    	orderToUpdate.setStatus(order.getStatus());
-        orderRepository.save(order);
-        for(OrderDetail detail:order.getDetails()) {
-        	OrderDetail detalleAnterior = orderDetailRepository.findById(detail.getId())
+    	entryToUpdate.setRecordUser(entry.getRecordUser());
+    	entryToUpdate.setRecordDate(entry.getRecordDate());
+    	entryToUpdate.setDescription(entry.getDescription());
+        entryRepository.save(entry);
+        for(EntryDetail detail:entry.getDetails()) {
+        	EntryDetail detalleAnterior = entryDetailRepository.findById(detail.getId())
                     .orElseThrow(() -> new ObjectNotFoundException(detail.getId()));
         	Integer cantidadAnterior = detalleAnterior.getQty();
-        	detail.setOrder(orderToUpdate);
-    		orderDetailRepository.save(detail);
+        	detail.setEntry(entryToUpdate);
+    		entryDetailRepository.save(detail);
     		//Actualizar producto
     		Product producto = productRepository.findById(detail.getProduct().getId())
     				.orElseThrow(() -> new ObjectNotFoundException(detail.getProduct().getId()));
     		producto.setQty(producto.getQty()+cantidadAnterior-detail.getQty());
     		productRepository.save(producto);
     	}
-        return orderToUpdate;
+        return entryToUpdate;
     }
     
-    /**
-     * Deactivate an Order 
-     * @param id id of the order
-     * @return boolean
-     */
-    @GetMapping("/orders/delete/{id}")
-    Boolean deactivateOrder(@PathVariable Long id) {
-
-        Order deleteOrder = orderRepository.findById(id)
-                .orElseThrow(() -> new ObjectNotFoundException(id));
-        deleteOrder.setStatus("cancelado");
-        orderRepository.save(deleteOrder);
-        for(OrderDetail detail:deleteOrder.getDetails()) {
-        	detail.setOrder(deleteOrder);
-    		Product producto = productRepository.findById(detail.getProduct().getId())
-    				.orElseThrow(() -> new ObjectNotFoundException(detail.getProduct().getId()));
-    		producto.setQty(producto.getQty()+detail.getQty());
-    		productRepository.save(producto);
-    	}
-        return true;
-
-    }
-    
-    /**
-     * Process an Order 
-     * @param id id of the order
-     * @return boolean
-     */
-    @GetMapping("/orders/process/{id}")
-    Boolean processOrder(@PathVariable Long id) {
-
-        Order processOrder = orderRepository.findById(id)
-                .orElseThrow(() -> new ObjectNotFoundException(id));
-        processOrder.setStatus("en_proceso");
-        orderRepository.save(processOrder);
-        return true;
-
-    }
-    
-    /**
-     * Complete an Order 
-     * @param id id of the order
-     * @return boolean
-     */
-    @GetMapping("/orders/complete/{id}")
-    Boolean completeOrder(@PathVariable Long id) {
-
-        Order completeOrder = orderRepository.findById(id)
-                .orElseThrow(() -> new ObjectNotFoundException(id));
-        completeOrder.setStatus("completado");
-        orderRepository.save(completeOrder);
-        return true;
-
-    }    
 
 }

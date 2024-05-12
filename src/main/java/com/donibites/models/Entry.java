@@ -11,21 +11,19 @@ import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 
 
-/**
- *  
- *  
- */
-
 @Entity(name = "tb_ingreso_producto")
 public class Entry {
 	@Id
-    @Column(name = "id_ingreso")
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "id_ingreso")
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
+
 	@Column(name = "id_usuario")
-	private Integer recordUser;
+	private Long recordUser; // Cambiado de Long a Integer
+
 	@Column(name = "fecha_ingreso")
 	private Date recordDate;
+
 	@Column(name = "descripcion")
 	private String description;
 
@@ -34,16 +32,9 @@ public class Entry {
 
 	public Entry() {
 		super();
-		// TODO Auto-generated constructor stub
 	}
 
-
-	
-
-	
-
-
-	public Entry(Long id, Integer recordUser, Date recordDate, String description, List<EntryDetail> details) {
+	public Entry(Long id, Long recordUser, Date recordDate, String description, List<EntryDetail> details) {
 		super();
 		this.id = id;
 		this.recordUser = recordUser;
@@ -52,115 +43,48 @@ public class Entry {
 		this.details = details;
 	}
 
-
-
-
-
-
-
 	public Long getId() {
 		return id;
 	}
-
-
-
-
-
-
 
 	public void setId(Long id) {
 		this.id = id;
 	}
 
-
-
-
-
-
-
-	public Integer getRecordUser() {
+	public Long getRecordUser() {
 		return recordUser;
 	}
 
-
-
-
-
-
-
-	public void setRecordUser(Integer recordUser) {
+	public void setRecordUser(Long recordUser) {
 		this.recordUser = recordUser;
 	}
-
-
-
-
-
-
 
 	public Date getRecordDate() {
 		return recordDate;
 	}
 
-
-
-
-
-
-
 	public void setRecordDate(Date recordDate) {
 		this.recordDate = recordDate;
 	}
-
-
-
-
-
-
 
 	public String getDescription() {
 		return description;
 	}
 
-
-
-
-
-
-
 	public void setDescription(String description) {
 		this.description = description;
 	}
-
-
-
-
-
-
 
 	public List<EntryDetail> getDetails() {
 		return details;
 	}
 
-
-
-
-
-
-
 	public void setDetails(List<EntryDetail> details) {
 		this.details = details;
 	}
-
-
-
-
-
-
 
 	@Override
 	public String toString() {
 		return description;
 	}
-
 }

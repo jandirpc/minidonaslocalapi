@@ -31,10 +31,10 @@ build/
 
 ### VS Code ###
 .vscode/
-.mvn/wrapper/maven-wrapper.jar
+.mvn/wrapper/maven-wrapper.jars
 .mvn/wrapper/maven-wrapper.properties
 src/main/resources/application.properties
-src/main/java/com/donibites/CorsConfig.java
+
 .mvn/wrapper/maven-wrapper.jar
 .mvn/wrapper/maven-wrapper.properties
 mvnw.cmd

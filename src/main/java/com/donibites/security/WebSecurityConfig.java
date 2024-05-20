@@ -6,8 +6,6 @@ import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 
 @Configuration
@@ -19,7 +17,7 @@ public class WebSecurityConfig {
 		return httpSecurity
 		        .csrf(csrf -> csrf.disable())
 		        .authorizeHttpRequests(auth -> auth
-		            .requestMatchers("/","/images/**").permitAll()
+		            .requestMatchers("/images/**").permitAll()
 		            .anyRequest().authenticated()
 		        )
 		        .sessionManagement(sess -> sess.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
@@ -27,9 +25,5 @@ public class WebSecurityConfig {
 		        .build();
 	}
 	
-	@Bean
-	PasswordEncoder encoder() {
-	    return new BCryptPasswordEncoder();
-	}
 
 }

@@ -4,6 +4,9 @@ import java.util.Collection;
 
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.crypto.factory.PasswordEncoderFactories;
+import org.springframework.security.crypto.password.PasswordEncoder;
+
 import com.donibites.models.User;
 
 public class MyUserPrincipal implements UserDetails {
@@ -12,6 +15,7 @@ public class MyUserPrincipal implements UserDetails {
 	 */
 	private static final long serialVersionUID = 1L;
 	private User user;
+	PasswordEncoder encoder = PasswordEncoderFactories.createDelegatingPasswordEncoder();
 
     public MyUserPrincipal(User user) {
         this.setUser(user);
@@ -27,7 +31,7 @@ public class MyUserPrincipal implements UserDetails {
 	@Override
 	public String getPassword() {
 		// TODO Auto-generated method stub
-		return user.getPassword();
+		return encoder.encode(user.getPassword());
 	}
 
 	@Override

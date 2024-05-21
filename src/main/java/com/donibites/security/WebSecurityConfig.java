@@ -17,7 +17,7 @@ public class WebSecurityConfig {
 		return httpSecurity
 		        .csrf(csrf -> csrf.disable())
 		        .authorizeHttpRequests(auth -> auth
-		            .requestMatchers("/images/**").permitAll()
+				.requestMatchers("/images/", "/users/login").permitAll()
 		            .anyRequest().authenticated()
 		        )
 		        .sessionManagement(sess -> sess.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
